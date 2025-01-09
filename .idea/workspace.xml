@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="539127e0-48c7-4c67-bc99-3e0a5c78f524" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old/Era-parser/era.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old/Era-parser/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old/Geniled-parser/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old/Inhome-parser/inhome.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old/Inhome-parser/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old/KVT-parser/kvt.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old/KVT-parser/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old/Neox-parser/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old/Neox-parser/neox.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old/Rexant-parser/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old/Rexant-parser/rexant.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old/Wolta-parses/Wolta.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old/Wolta-parses/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old/ekf-parser/ekf.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old/ekf-parser/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/el_parser.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/el_parser.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +25,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Alex1397Pearce"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Alex1397Pearce/el_parser.git",
+    "accountId": "f9eb03fd-acb4-4acb-86d3-17d1ef5a0b9f"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 0
+}]]></component>
   <component name="ProjectId" id="2rODLSCmXQmEUUwhGwZ6xPxhmLs" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -43,15 +49,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/main.py" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/alex/PycharmProjects/el_parser",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python">
       <module name="el_parser" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -71,6 +81,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-1b1018131e27-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.22562.180" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
