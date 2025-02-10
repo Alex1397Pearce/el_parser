@@ -90,7 +90,6 @@ class Browser:
         return response.text
 
 
-
 class Parser:
 
     def __init__(self, base_url):
