@@ -3,7 +3,6 @@ import pandas as pd
 import openpyxl
 import requests
 from bs4 import BeautifulSoup
-from requests_html import HTMLSession
 
 
 # link on web site IEK https://www.iek.ru/products/catalog/search?q=FP-V20-0-10-1-K10
@@ -84,10 +83,19 @@ class Excel(Files):
 
 
 class Browser:
-    def get_page(self, url):
+
+    @staticmethod
+    def get_page(url):
         response = requests.get(url)
         response.raise_for_status()
         return response.text
+
+    @staticmethod
+    def download(url, name_file):
+        response = requests.get(url)
+        response.raise_for_status()
+        with open(name_file, 'wb') as file:
+            file.write(response.content)
 
 
 class Parser:
@@ -95,12 +103,36 @@ class Parser:
     def __init__(self, base_url):
         self.base_url = base_url
 
-    def make_request(self, url):
-        response = requests.get(url)
-        response.raise_for_status()
-        self.search_page = response.text
+    @staticmethod
+    def check_element(content_page, type_element, name_class):
+        soup = BeautifulSoup(content_page, 'html.parser')
+        if soup.find(type_element, class_=name_class):
+            return True
+        else:
+            return False
 
-    def check_element(self, type_element, name_class):
+    @staticmethod
+    def get_attr_4el_by_class(page, class_name, attr_name):
+        pass
+
+    @staticmethod
+    def get_attr_4el_by_id(page, id_name, attr_name):
+        pass
+
+    # @staticmethod
+    def join_base_url(self, func):
+        def wrapper(*args, **kwargs):
+            self_instance = args[0]
+            original_func = func(*args, **kwargs)
+            modif_func = ''.join(f"{self_instance.base_url}{original_func}")
+            return modif_func
+        return wrapper
+
+    @join_base_url
+    def test_func(self):
+        return "/text"
+
+    def check_element_ref(self, type_element, name_class):
         soup = BeautifulSoup(self.search_page, 'html.parser')
         if soup.find(type_element, class_=name_class):
             return True

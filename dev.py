@@ -1,4 +1,4 @@
-from main import URLIterator, Reader, Parser
+from main import URLIterator, Parser, Browser
 
 
 def set_iter():
@@ -10,11 +10,15 @@ def set_iter():
 
 data = ("4690612024004", "4690612024028")
 iterator = URLIterator(data, "https://in-home.ru/products/?q=")
-r = Parser("https://in-home.ru")
+p = Parser("https://in-home.ru")
 for url, item in iterator:
-    r.make_request(url)
-    if not r.check_element(type_element='div', name_class='no_goods'):
-        product_link = r.get_link_element(type_element='div', name_class='catalog-block__info-title a')
-        r.make_request(product_link)
-        image_link = r.get_element_by_id('big-photo-0')
-        print(image_link)
+    # p.make_request(url)
+    search_page = Browser.get_page(url)
+    if not Parser.check_element(search_page, 'div', 'no_goods'):
+        pass
+
+    # if not p.check_element_ref(type_element='div', name_class='no_goods'):
+    #     product_link = p.get_link_element(type_element='div', name_class='catalog-block__info-title a')
+    #     p.make_request(product_link)
+    #     image_link = p.get_element_by_id('big-photo-0')
+    #     print(image_link)
