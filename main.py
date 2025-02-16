@@ -132,9 +132,6 @@ class Parser:
             return modif_func
         return wrapper
 
-    # @join_base_urlurl
-    def test_func(self):
-        return "/text"
 
     def check_element_ref(self, type_element, name_class):
         soup = BeautifulSoup(self.search_page, 'html.parser')
