@@ -132,7 +132,6 @@ class Parser:
             return modif_func
         return wrapper
 
-
     def check_element_ref(self, type_element, name_class):
         soup = BeautifulSoup(self.search_page, 'html.parser')
         if soup.find(type_element, class_=name_class):
