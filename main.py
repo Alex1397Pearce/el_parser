@@ -112,15 +112,19 @@ class Parser:
             return False
 
     @staticmethod
-    def get_attr_4el_by_class(page, class_name, attr_name):
-        pass
+    def get_attr_4el_by_class(page, type_element, class_name, attr_name):
+        soup = BeautifulSoup(page, 'html.parser')
+        element = soup.select_one(f"{type_element}.{class_name}")
+        return element.attrs[attr_name]
 
     @staticmethod
     def get_attr_4el_by_id(page, id_name, attr_name):
-        pass
+        soup = BeautifulSoup(page, 'html.parser')
+        element = soup.find(id=id_name).select_one("a.popup_link")
+        return element.attrs[attr_name]
 
-    # @staticmethod
-    def join_base_url(self, func):
+    @staticmethod
+    def join_base_url(func):
         def wrapper(*args, **kwargs):
             self_instance = args[0]
             original_func = func(*args, **kwargs)
@@ -128,7 +132,7 @@ class Parser:
             return modif_func
         return wrapper
 
-    @join_base_url
+    # @join_base_urlurl
     def test_func(self):
         return "/text"
 
