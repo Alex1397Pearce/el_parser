@@ -1,27 +1,30 @@
-from main import URLIterator, Parser, Browser
+import requests
+from main import URLIterator, Parser, Browser, Reader, Excel
 
 
-def set_iter():
-    # file = Reader(r"c:\Users\pr54m\Desktop\inhome.xlsx")
-    # data = file.get_list()
+file = Reader(r"c:\Users\pr54m\Desktop\inhome.xlsx")
+success_file = Excel(r"\\1csrv\SystemFiles\pictures\results\Succes_InHome.xlsx")
+failed_file = Excel(r"\\1csrv\SystemFiles\pictures\results\Failed_InHome.xlsx")
 
-    return iterator
-
-
+# data = file.get_list()
 data = ("4690612024004", "4690612024028")
 iterator = URLIterator(data, "https://in-home.ru/products/?q=")
 p = Parser("https://in-home.ru")
 for url, item in iterator:
-    # p.make_request(url)
-    search_page = Browser.get_page(url)
-    if not Parser.check_element(search_page, 'div', 'no_goods'):
-        product_url = p.get_attr_4el_by_class(search_page, 'div','catalog-block__info-title a', 'href')
-        product_page = Browser.get_page(f"https://in-home.ru{product_url}")
-        image_url = p.get_attr_4el_by_id(product_page, 'big-photo-0', 'href')
-        Browser.download(image_url, f"/home/alex/{item}.png")
+    try:
+        search_page = Browser.get_page(url)
+        if not Parser.check_element(search_page, 'div', 'no_goods') and not Parser.check_element(search_page, 'div',
+                                                                                                 'alert-danger'):
+            product_url = p.get_attr_4el_by_class(search_page, 'div', 'catalog-block__info-title a', 'href')
+            product_page = Browser.get_page(f"https://in-home.ru{product_url}")
+            image_url = p.get_attr_4el_by_id(product_page, 'big-photo-0', 'href')
+            image_path = fr"\\1csrv\SystemFiles\pictures\{item}.png"
+            Browser.download(image_url, image_path)
+            success_file.list_to_excel(item, image_path)
+        else:
+            failed_file.list_to_excel(item)
+    except requests.exceptions.HTTPError as e:
+        print(e)
+        failed_file.list_to_excel(item, url)
 
-    # if not p.check_element_ref(type_element='div', name_class='no_goods'):
-    #     product_link = p.get_link_element(type_element='div', name_class='catalog-block__info-title a')
-    #     p.make_request(product_link)
-    #     image_link = p.get_element_by_id('big-photo-0')
-    #     print(image_link)
+
