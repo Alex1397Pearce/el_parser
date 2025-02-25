@@ -6,8 +6,8 @@ file = Reader(r"c:\Users\pr54m\Desktop\inhome.xlsx")
 success_file = Excel(r"\\1csrv\SystemFiles\pictures\results\Succes_InHome.xlsx")
 failed_file = Excel(r"\\1csrv\SystemFiles\pictures\results\Failed_InHome.xlsx")
 
-# data = file.get_list()
-data = ("4690612024004", "4690612024028")
+
+data = file.get_list()
 iterator = URLIterator(data, "https://in-home.ru/products/?q=")
 p = Parser("https://in-home.ru")
 for url, item in iterator:
@@ -26,5 +26,3 @@ for url, item in iterator:
     except requests.exceptions.HTTPError as e:
         print(e)
         failed_file.list_to_excel(item, url)
-
-

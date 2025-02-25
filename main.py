@@ -1,7 +1,9 @@
 import os
 import pandas as pd
 import openpyxl
+import openpyxl.styles.numbers
 import requests
+import time
 from bs4 import BeautifulSoup
 
 
@@ -55,7 +57,11 @@ class Reader(Files):
 class Excel(Files):
     def __init__(self, filepath):
         super().__init__(filepath)
-        if not self.status:
+        if self.status:
+            os.remove(self.filepath)
+            workbook = openpyxl.Workbook()
+            workbook.save(self.filepath)
+        else:
             workbook = openpyxl.Workbook()
             workbook.save(self.filepath)
 
@@ -76,26 +82,38 @@ class Excel(Files):
         first_empty_row = 1
         while sheet.cell(row=first_empty_row, column=1).value is not None:
             first_empty_row += 1
-
+        sheet.cell(row=first_empty_row, column=1).number_format = openpyxl.styles.numbers.BUILTIN_FORMATS[1]
         sheet.cell(row=first_empty_row, column=1, value=value_articul)
         sheet.cell(row=first_empty_row, column=2, value=url)
         workbook.save(self.filepath)
+        print(f"Записано в {self.filepath}: {value_articul} {url}")
 
 
 class Browser:
 
     @staticmethod
-    def get_page(url):
-        response = requests.get(url)
-        response.raise_for_status()
-        return response.text
+    def get_page(url, timeout = 5, try_count = 5):
+        while try_count > 0:
+            response = requests.get(url)
+            if response.status_code == 200:
+                print(f"Загружена страница: {url}")
+                return response.text
+            else:
+                time.sleep(timeout)
+                try_count -= 1
+                if try_count == 0:
+                    response.raise_for_status()
+
+
 
     @staticmethod
     def download(url, name_file):
         response = requests.get(url)
         response.raise_for_status()
+        print(f"Загружен файл с {url} в {name_file}")
         with open(name_file, 'wb') as file:
             file.write(response.content)
+
 
 
 class Parser:
