@@ -175,3 +175,22 @@ class Parser:
         soup = BeautifulSoup(page, 'html.parser')
         element = soup.select_one(f"{type_element}.{name_class}")
         return element.attrs[name_attr]
+
+class Statistic:
+
+    def __init__(self):
+        self.suc = 0
+        self.fail_not_found = 0
+        self.fail_oth = 0
+
+    def get_stat(self):
+        print(f"-----------------\nStats: \nSucc: {self.suc} \nFail_4: {self.fail_not_found} \nFail_oth: {self.fail_oth}")
+
+    def add_s(self):
+        self.suc += 1
+
+    def add_fn(self):
+        self.fail_not_found += 1
+
+    def add_fo(self):
+        self.fail_oth += 1
