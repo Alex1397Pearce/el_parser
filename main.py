@@ -92,7 +92,7 @@ class Excel(Files):
 class Browser:
 
     @staticmethod
-    def get_page(url, timeout = 5, try_count = 5):
+    def get_page(url, timeout=5, try_count=5):
         while try_count > 0:
             response = requests.get(url)
             if response.status_code == 200:
@@ -104,8 +104,6 @@ class Browser:
                 if try_count == 0:
                     response.raise_for_status()
 
-
-
     @staticmethod
     def download(url, name_file):
         response = requests.get(url)
@@ -113,7 +111,6 @@ class Browser:
         print(f"Загружен файл с {url} в {name_file}")
         with open(name_file, 'wb') as file:
             file.write(response.content)
-
 
 
 class Parser:
@@ -142,12 +139,18 @@ class Parser:
         return element.attrs[attr_name]
 
     @staticmethod
+    def get_value_by_class(page, type_element, class_name):
+        soup = BeautifulSoup(page, 'html.parser')
+        elements = soup.find_all()
+
+    @staticmethod
     def join_base_url(func):
         def wrapper(*args, **kwargs):
             self_instance = args[0]
             original_func = func(*args, **kwargs)
             modif_func = ''.join(f"{self_instance.base_url}{original_func}")
             return modif_func
+
         return wrapper
 
     def check_element_ref(self, type_element, name_class):
@@ -176,6 +179,7 @@ class Parser:
         element = soup.select_one(f"{type_element}.{name_class}")
         return element.attrs[name_attr]
 
+
 class Statistic:
 
     def __init__(self):
@@ -184,7 +188,8 @@ class Statistic:
         self.fail_oth = 0
 
     def get_stat(self):
-        print(f"-----------------\nStats: \nSucc: {self.suc} \nFail_4: {self.fail_not_found} \nFail_oth: {self.fail_oth}")
+        print(
+            f"-----------------\nStats: \nSucc: {self.suc} \nFail_4: {self.fail_not_found} \nFail_oth: {self.fail_oth}")
 
     def add_s(self):
         self.suc += 1
@@ -194,3 +199,23 @@ class Statistic:
 
     def add_fo(self):
         self.fail_oth += 1
+
+
+class Converter:
+
+    @staticmethod
+    def webp_png(img):
+        pass
+        # from PIL import Image  # Open a WebP image
+        # webp_image = Image.open("input.webp")
+        # png_image = webp_image.convert("RGBA")
+        # png_image.save("output.png")
+
+    @staticmethod
+    def aviv_png(img):
+        pass
+        # from PIL import Image
+        # import pillow_avif
+        #
+        # img = Image.open('input.avif')
+        # img.save('output.png')
