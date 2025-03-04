@@ -5,7 +5,8 @@ import openpyxl.styles.numbers
 import requests
 import time
 from bs4 import BeautifulSoup
-
+from PIL import Image
+import pillow_avif
 
 # link on web site IEK https://www.iek.ru/products/catalog/search?q=FP-V20-0-10-1-K10
 
@@ -105,12 +106,25 @@ class Browser:
                     response.raise_for_status()
 
     @staticmethod
-    def download(url, name_file):
-        response = requests.get(url)
-        response.raise_for_status()
-        print(f"Загружен файл с {url} в {name_file}")
-        with open(name_file, 'wb') as file:
-            file.write(response.content)
+    def download(url, name_file, timeout=5, try_count=5):
+        # response = requests.get(url)
+        # response.raise_for_status()
+        # print(f"Загружен файл с {url} в {name_file}")
+        # with open(name_file, 'wb') as file:
+        #     file.write(response.content)
+        while try_count > 0:
+            response = requests.get(url)
+            print(response.status_code)
+            if response.status_code == 200:
+                print(f"Загружен файл с {url} в {name_file}")
+                with open(name_file, 'wb') as file:
+                    file.write(response.content)
+                break
+            else:
+                time.sleep(timeout)
+                try_count -= 1
+                if try_count == 0:
+                    response.raise_for_status()
 
 
 class Parser:
@@ -204,18 +218,12 @@ class Statistic:
 class Converter:
 
     @staticmethod
-    def webp_png(img):
-        pass
-        # from PIL import Image  # Open a WebP image
-        # webp_image = Image.open("input.webp")
-        # png_image = webp_image.convert("RGBA")
-        # png_image.save("output.png")
+    def webp_png(source, destination):
+        webp_image = Image.open(source)
+        png_image = webp_image.convert("RGBA")
+        png_image.save(destination)
 
     @staticmethod
-    def aviv_png(img):
-        pass
-        # from PIL import Image
-        # import pillow_avif
-        #
-        # img = Image.open('input.avif')
-        # img.save('output.png')
+    def aviv_png(source, destination):
+        img = Image.open(source)
+        img.save(destination)
