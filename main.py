@@ -1,4 +1,6 @@
 import os
+from collections.abc import Iterable
+
 import pandas as pd
 import openpyxl
 import openpyxl.styles.numbers
@@ -10,7 +12,7 @@ import pillow_avif
 
 # link on web site IEK https://www.iek.ru/products/catalog/search?q=FP-V20-0-10-1-K10
 
-class URLIterator:
+class URLIterator_old:
 
     def __init__(self, items, base_url):
         self.items = items
@@ -30,6 +32,32 @@ class URLIterator:
         return url, item
 
 
+class URLIterator:
+    def __init__(self, items, base_url):
+        """
+        :param items: Итерируемый объект (список, генератор и т.д.).
+                      Если передаются кортежи (item, code), они будут разложены.
+        :param base_url: Базовый URL для генерации ссылок.
+        """
+        if not isinstance(items, Iterable):
+            raise TypeError("items must be iterable (list, generator, etc.)")
+
+        self.items = iter(items)
+        self.base_url = base_url
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        item_data = next(self.items)
+        if isinstance(item_data, tuple) and len(item_data) == 2:
+            item, code = item_data
+        else:
+            item, code = item_data, None
+
+        url = f"{self.base_url}{item}"
+        return url, item, code
+
 class Files:
 
     def __init__(self, filepath):
@@ -44,7 +72,7 @@ class Files:
 
 
 class Reader(Files):
-    def get_list(self, column_name="Артикул"):
+    def get_list_excel(self, column_name="Артикул"):
         # check file exist
         try:
             df = pd.read_excel(self.filepath)
@@ -53,6 +81,15 @@ class Reader(Files):
         except Exception as e:
             print(f"Error reading Excel file: {e}")
             return []
+
+    def get_list_csv(self, column_art="Артикул", column_code="Код"):
+        try:
+            df = pd.read_csv(self.filepath, sep=';')
+            for _, row in df.iterrows():
+                yield (row[column_art], row[column_code])  # Ленивое чтение
+        except Exception as e:
+            print(f"Error reading CSV: {e}")
+            yield from ()  # Пустой генератор
 
 
 class Excel(Files):
@@ -144,7 +181,10 @@ class Parser:
     def get_attr_4el_by_class(page, type_element, class_name, attr_name):
         soup = BeautifulSoup(page, 'html.parser')
         element = soup.select_one(f"{type_element}.{class_name}")
-        return element.attrs[attr_name]
+        if element:
+            return element.attrs[attr_name]
+        else:
+            return None
 
     @staticmethod
     def get_attr_4el_by_id(page, id_name, attr_name):
@@ -164,8 +204,31 @@ class Parser:
             original_func = func(*args, **kwargs)
             modif_func = ''.join(f"{self_instance.base_url}{original_func}")
             return modif_func
-
         return wrapper
+
+    @staticmethod # iek
+    def get_link_in_results(search_page, item, tag_name, class_name):
+        soup = BeautifulSoup(search_page, 'html.parser')
+        spans = soup.find_all(tag_name, class_name)
+        for span in spans:
+            if item == span.contents[0]:
+                parent_a = span.find_parent("a")
+                product_url = parent_a.attrs['href']
+                return product_url
+
+    @staticmethod # ekf
+    def get_links(search_page, item, tag_name1, class_name1, tag_name2, class_name2):
+        soup = BeautifulSoup(search_page, 'html.parser')
+        p_links = soup.find_all(tag_name1, class_=class_name1)
+        span_items = soup.find_all(tag_name2, class_=class_name2)
+        for p, span in zip(p_links, span_items):
+            tmp_1 = span.contents[1]
+            tmp_2 = ''.join(tmp_1.split())
+            if item == tmp_2:
+                a = p.find("a")
+                product_url = a['href']
+                return product_url
+
 
     def check_element_ref(self, type_element, name_class):
         soup = BeautifulSoup(self.search_page, 'html.parser')

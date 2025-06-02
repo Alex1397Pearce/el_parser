@@ -28,10 +28,10 @@ def my_generator():
     # yield ("plc-jxb-4/35RD-gy")
     yield ("rcbo6-1pn-2B-30-ac-av")
     # yield ("Б0052635хуета", "УТ-000000")
-data = my_generator()
+# data = my_generator()
 
 # Рабочие данные
-# data = file.get_list_csv()
+data = file.get_list_csv()
 
 iterator = URLIterator(data, "https://ekfgroup.com/ru/search?q=")
 # p = Parser("https://ekfgroup.com/")
