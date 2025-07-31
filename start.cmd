@@ -2,3 +2,4 @@ start pwsh -Command "& d:\Stack\Soft_ELOMSK\parsers\el_parser\venv\Scripts\pytho
 start pwsh -Command "& d:\Stack\Soft_ELOMSK\parsers\el_parser\venv\Scripts\python.exe d:\Stack\Soft_ELOMSK\parsers\el_parser\era.py"
 start pwsh -Command "& d:\Stack\Soft_ELOMSK\parsers\el_parser\venv\Scripts\python.exe d:\Stack\Soft_ELOMSK\parsers\el_parser\iek.py"
 start pwsh -Command "& d:\Stack\Soft_ELOMSK\parsers\el_parser\venv\Scripts\python.exe d:\Stack\Soft_ELOMSK\parsers\el_parser\inhome.py"
+start pwsh -Command "& d:\Stack\Soft_ELOMSK\parsers\el_parser\venv\Scripts\python.exe d:\Stack\Soft_ELOMSK\parsers\el_parser\rexant.py"
