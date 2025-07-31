@@ -23,22 +23,21 @@ stat = Statistic()
 
 
 # Тестовые данные
-# def my_generator():
-#     yield ("WYP10-10-03-03-Z-G", "УТ-0144254")
-#     yield ("LB-1000A5-25-F-LUF", "УТ-0141224")
+def my_generator():
+    yield ("WYP10-10-03-03-Z-G", "УТ-0144254")
+    yield ("LB-1000A5-25-F-LUF", "УТ-0141224")
 # data = my_generator()
 
 # Рабочие данные
 data = file.get_list_csv()
 
 iterator = URLIterator(data, "https://www.iek.ru/products/catalog/search?q=")
-# p = Parser("https://www.iek.ru")
 for url, item, code in iterator:
     try:
         search_page = Browser.get_page(url)
         if not Parser.check_element(search_page, 'div', 'NothingFound_message__2aExd'):
             product_url = Parser.get_link_in_results(search_page, item, "span", "ProductArticle_btn-text__oYFaw")
-            if product_url: # https://generica.su/products/catalog/article/WYP10-10-03-03-Z-G
+            if product_url:
                 product_page = Browser.get_page(f"https://iek.ru{product_url}")
                 soup = BeautifulSoup(product_page, 'html.parser')
                 if Parser.check_element(product_page, 'div', 'MirgationProduct_container__5HpZ3'):
@@ -49,14 +48,10 @@ for url, item, code in iterator:
                     if img:
                         image = img.attrs['srcset']
                         image_url = image.split()
-                        image_path_temp = fr"\\1csrv\SystemFiles\pictures\{item}.avif"
-                        image_path_final = fr"\\1csrv\SystemFiles\pictures\{item}.png"
-
-                        Browser.download(image_url[0], image_path_temp)
-                        Converter.aviv_png(image_path_temp, image_path_final)
-                        os.remove(image_path_temp)
-                        print("Картинка удалена")
-                        success_file.list_to_excel(code, image_path_final)
+                        image_path = fr"\\1csrv\SystemFiles\pictures\{code}.avif"
+                        Browser.download(image_url[0], image_path)
+                        Converter.convert_to_jpg(image_path)
+                        success_file.list_to_excel(code, image_path)
                         stat.add_s()
                         stat.get_stat()
 
@@ -71,14 +66,10 @@ for url, item, code in iterator:
                     if img:
                         image = img.attrs['srcset']
                         image_url = image.split()
-                        image_path_temp = fr"\\1csrv\SystemFiles\pictures\{item}.avif"
-                        image_path_final = fr"\\1csrv\SystemFiles\pictures\{item}.png"
-
-                        Browser.download(image_url[0], image_path_temp)
-                        Converter.aviv_png(image_path_temp, image_path_final)
-                        os.remove(image_path_temp)
-                        print("Картинка удалена")
-                        success_file.list_to_excel(code, image_path_final)
+                        image_path = fr"\\1csrv\SystemFiles\pictures\{code}.avif"
+                        Browser.download(image_url[0], image_path)
+                        Converter.convert_to_jpg(image_path)
+                        success_file.list_to_excel(code, image_path)
                         stat.add_s()
                         stat.get_stat()
 

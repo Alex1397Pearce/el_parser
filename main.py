@@ -229,6 +229,13 @@ class Parser:
                 product_url = a['href']
                 return product_url
 
+    @staticmethod # rexant
+    def get_child_img(search_page, class_name):
+        soup = BeautifulSoup(search_page, 'html.parser')
+        parent = soup.find("div", class_=class_name)
+        img_item = parent.find("img")
+        img_url = img_item['src']
+        return img_url
 
     def check_element_ref(self, type_element, name_class):
         soup = BeautifulSoup(self.search_page, 'html.parser')
@@ -290,3 +297,33 @@ class Converter:
     def aviv_png(source, destination):
         img = Image.open(source)
         img.save(destination)
+
+    @staticmethod
+    def convert_to_jpg(input_path, output_path=None):
+        """
+        Конвертирует изображение любого поддерживаемого формата в JPG.
+        
+        Аргументы:
+        input_path -- путь к исходному изображению
+        output_path -- путь для сохранения JPG (если не указан, будет заменено расширение исходного файла)
+        """
+        # Если output_path не указан, заменяем расширение на .jpg
+        if output_path is None:
+            output_path = os.path.splitext(input_path)[0] + '.jpg'
+        
+        try:
+            # Открываем изображение
+            img = Image.open(input_path)
+            
+            # Конвертируем в RGB, если нужно (JPG не поддержает альфа-канал)
+            if img.mode in ('RGBA', 'LA') or (img.mode == 'P' and 'transparency' in img.info):
+                img = img.convert('RGB')
+            
+            # Сохраняем как JPG
+            img.save(output_path, 'JPEG', quality=95)
+            print(f"Успешно конвертировано: {input_path} -> {output_path}")
+            os.remove(input_path)
+            return True
+        except Exception as e:
+            print(f"Ошибка при конвертации {input_path}: {str(e)}")
+            return False

@@ -26,7 +26,7 @@ def get_product_link_iek(item):
 # Тестовые данные
 def my_generator():
     # yield ("plc-jxb-4/35RD-gy")
-    yield ("rcbo6-1pn-2B-30-ac-av")
+    yield ("AleSta-PM19iU47", "УТ-0164323")
     # yield ("Б0052635хуета", "УТ-000000")
 # data = my_generator()
 
@@ -34,19 +34,17 @@ def my_generator():
 data = file.get_list_csv()
 
 iterator = URLIterator(data, "https://ekfgroup.com/ru/search?q=")
-# p = Parser("https://ekfgroup.com/")
 for url, item, code in iterator:
     try:
         search_page = Browser.get_page(url)
-        # product_url = Parser.get_attr_4el_by_class(search_page, 'p', 'product-title a', 'href')
         product_url = Parser.get_links(search_page, item, 'p', 'product-title', 'span', 'product-vendor-code')
         if product_url:
             product_page = Browser.get_page(f"https://ekfgroup.com{product_url}")
             image_url = Parser.get_attr_4el_by_class(product_page, 'img', 'gallery-slide-image', 'src')
-            # image_url2 = Parser.get_attr_4el_by_class(product_page, 'img', 'spinner-img', 'src')
             if image_url is not None:
                 image_path = fr"\\1csrv\SystemFiles\pictures\{code}.png"
                 Browser.download(image_url, image_path)
+                Converter.convert_to_jpg(image_path)
                 success_file.list_to_excel(code, image_path)
                 stat.add_s()
                 stat.get_stat()

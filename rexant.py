@@ -29,10 +29,10 @@ def my_generator():
     yield ("51-1000", "УТ-0114087") # Картинка есть
     yield ("13-1347", "УТ-0108187") # найдено, но картинки нет
 
-data = my_generator()
+# data = my_generator()
 
 # Рабочие данные
-# data = file.get_list_csv()
+data = file.get_list_csv()
 
 iterator = URLIterator(data, "https://rexant.ru/catalog/?q=")
 # p = Parser("https://ekfgroup.com/")

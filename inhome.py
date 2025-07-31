@@ -1,5 +1,5 @@
 import requests
-from main import URLIterator, Parser, Browser, Reader, Excel, Statistic
+from main import URLIterator, Parser, Browser, Reader, Excel, Statistic, Converter
 
 
 file = Reader(r"\\1csrv\SystemFiles\pictures\data\inhome.csv")
@@ -7,7 +7,11 @@ success_file = Excel(r"\\1csrv\SystemFiles\pictures\results\Succes_InHome.xlsx")
 failed_file = Excel(r"\\1csrv\SystemFiles\pictures\results\Failed_InHome.xlsx")
 stat = Statistic()
 
-
+def my_generator():
+    # yield ("plc-jxb-4/35RD-gy")
+    yield ("4690612042442", "УТ-0109083")
+    # yield ("Б0052635хуета", "УТ-000000")
+# data = my_generator()
 data = file.get_list_csv()
 iterator = URLIterator(data, "https://in-home.ru/products/?q=")
 p = Parser("https://in-home.ru")
@@ -19,8 +23,9 @@ for url, item, code in iterator:
             product_url = p.get_attr_4el_by_class(search_page, 'div', 'catalog-block__info-title a', 'href')
             product_page = Browser.get_page(f"https://in-home.ru{product_url}")
             image_url = p.get_attr_4el_by_id(product_page, 'big-photo-0', 'href')
-            image_path = fr"\\1csrv\SystemFiles\pictures\{item}.png"
+            image_path = fr"\\1csrv\SystemFiles\pictures\{code}.png"
             Browser.download(image_url, image_path)
+            Converter.convert_to_jpg(image_path)
             success_file.list_to_excel(code, image_path)
             stat.add_s()
             stat.get_stat()

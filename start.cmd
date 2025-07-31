@@ -1,0 +1,4 @@
+start pwsh -Command "& d:\Stack\Soft_ELOMSK\parsers\el_parser\venv\Scripts\python.exe d:\Stack\Soft_ELOMSK\parsers\el_parser\ekf.py"
+start pwsh -Command "& d:\Stack\Soft_ELOMSK\parsers\el_parser\venv\Scripts\python.exe d:\Stack\Soft_ELOMSK\parsers\el_parser\era.py"
+start pwsh -Command "& d:\Stack\Soft_ELOMSK\parsers\el_parser\venv\Scripts\python.exe d:\Stack\Soft_ELOMSK\parsers\el_parser\iek.py"
+start pwsh -Command "& d:\Stack\Soft_ELOMSK\parsers\el_parser\venv\Scripts\python.exe d:\Stack\Soft_ELOMSK\parsers\el_parser\inhome.py"

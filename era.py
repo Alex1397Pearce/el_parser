@@ -12,7 +12,12 @@ failed_file = Excel(r"\\1csrv\SystemFiles\pictures\results\Failed_era.xlsx")
 stat = Statistic()
 
 data = file.get_list_csv()
-# data = ("Б0052635хуета", "Б0052635")
+
+def my_generator():
+    yield ("Б0052635хуета", "УТ-0144254")
+    yield ("Б0052635", "УТ-0141224")
+# data = my_generator()
+
 iterator = URLIterator(data, "https://www.eraworld.ru/search?q=")
 p = Parser("https://www.eraworld.ru")
 for url, item, code in iterator:
@@ -22,8 +27,9 @@ for url, item, code in iterator:
         if product_url:
             product_page = Browser.get_page(product_url)
             image_url = p.get_attr_4el_by_class(product_page, 'div', 'big_image a', 'href')
-            image_path = fr"\\1csrv\SystemFiles\pictures\{item}.png"
+            image_path = fr"\\1csrv\SystemFiles\pictures\{code}.png"
             Browser.download(image_url, image_path)
+            Converter.convert_to_jpg(image_path)
             success_file.list_to_excel(code, image_path)
             stat.add_s()
             stat.get_stat()
